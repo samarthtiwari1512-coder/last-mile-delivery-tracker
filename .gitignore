@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+.next/
+out/
+dist/
+build/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Editor-specific
+.vscode/
+.idea/
+*.swp
+
+# Misc
+*.log
+.DS_Store
+npm-debug.log*

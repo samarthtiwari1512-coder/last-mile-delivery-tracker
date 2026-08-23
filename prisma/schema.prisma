@@ -1,0 +1,224 @@
+// ============================================================
+// Last-Mile Delivery Tracker — Database Schema
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------------
+// Enums
+// ----------------------------------------------------------
+
+enum Role {
+  CUSTOMER
+  AGENT
+  ADMIN
+}
+
+enum OrderType {
+  B2B
+  B2C
+}
+
+enum PaymentType {
+  PREPAID
+  COD
+}
+
+enum RateType {
+  INTRA_ZONE
+  INTER_ZONE
+}
+
+enum OrderStatus {
+  PLACED
+  ASSIGNED
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  RESCHEDULED
+  CANCELLED
+}
+
+enum AgentAvailability {
+  AVAILABLE
+  BUSY
+  OFFLINE
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+}
+
+// ----------------------------------------------------------
+// Users & Agents
+// ----------------------------------------------------------
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(CUSTOMER)
+  phone        String?
+  createdAt    DateTime @default(now())
+
+  // relations
+  ordersPlaced   Order[]           @relation("CustomerOrders")
+  ordersCreated  Order[]           @relation("CreatedByOrders")
+  agentProfile   Agent?
+  statusChanges  OrderStatusHistory[]
+}
+
+model Agent {
+  id           String            @id @default(cuid())
+  userId       String            @unique
+  user         User              @relation(fields: [userId], references: [id])
+  currentZoneId String?
+  currentZone  Zone?             @relation(fields: [currentZoneId], references: [id])
+  latitude     Float?
+  longitude    Float?
+  availability AgentAvailability @default(AVAILABLE)
+  orders       Order[]
+  updatedAt    DateTime          @updatedAt
+}
+
+// ----------------------------------------------------------
+// Zones & Rate Cards (admin configurable, no hardcoding)
+// ----------------------------------------------------------
+
+model Zone {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+
+  areas         Area[]
+  agents        Agent[]
+  pickupOrders  Order[] @relation("PickupZone")
+  dropOrders    Order[] @relation("DropZone")
+}
+
+// Maps a pincode / locality string to a Zone, so zone detection
+// is a lookup, not hardcoded logic.
+model Area {
+  id       String @id @default(cuid())
+  pincode  String @unique
+  label    String?
+  zoneId   String
+  zone     Zone   @relation(fields: [zoneId], references: [id])
+}
+
+// One row per (orderType, rateType) combination, e.g.
+// B2C + INTRA_ZONE, B2C + INTER_ZONE, B2B + INTRA_ZONE, B2B + INTER_ZONE.
+// Admin can edit these values without touching code.
+model RateCard {
+  id            String    @id @default(cuid())
+  orderType     OrderType
+  rateType      RateType
+  baseCharge    Float     // flat charge included regardless of weight
+  perKgRate     Float     // charge per kg of chargeable weight
+  minCharge     Float     // floor charge, in case computed charge is very low
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([orderType, rateType])
+}
+
+// COD surcharge configuration per order type.
+model CodSurchargeConfig {
+  id         String    @id @default(cuid())
+  orderType  OrderType @unique
+  isPercent  Boolean   @default(false) // true => value is a %, false => flat amount
+  value      Float
+  updatedAt  DateTime  @updatedAt
+}
+
+// ----------------------------------------------------------
+// Orders
+// ----------------------------------------------------------
+
+model Order {
+  id            String      @id @default(cuid())
+
+  // parties
+  customerId    String
+  customer      User        @relation("CustomerOrders", fields: [customerId], references: [id])
+  createdById   String
+  createdBy     User        @relation("CreatedByOrders", fields: [createdById], references: [id])
+
+  // addresses & zones
+  pickupAddress String
+  pickupPincode String
+  pickupZoneId  String
+  pickupZone    Zone        @relation("PickupZone", fields: [pickupZoneId], references: [id])
+  dropAddress   String
+  dropPincode   String
+  dropZoneId    String
+  dropZone      Zone        @relation("DropZone", fields: [dropZoneId], references: [id])
+
+  // package
+  lengthCm       Float
+  breadthCm      Float
+  heightCm       Float
+  actualWeightKg Float
+  volumetricWeightKg Float
+  chargeableWeightKg Float
+
+  // commercial
+  orderType      OrderType
+  paymentType    PaymentType
+  rateType       RateType     // INTRA or INTER, derived from pickup/drop zone comparison
+  baseCharge     Float
+  weightCharge   Float
+  codSurcharge   Float        @default(0)
+  totalCharge    Float
+
+  // fulfillment
+  status         OrderStatus  @default(PLACED)
+  agentId        String?
+  agent          Agent?       @relation(fields: [agentId], references: [id])
+
+  // reschedule (failed delivery flow)
+  rescheduledFor DateTime?
+  failureReason  String?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  history        OrderStatusHistory[]
+  notifications  Notification[]
+}
+
+// Immutable audit trail — every status transition is appended,
+// never updated or deleted.
+model OrderStatusHistory {
+  id        String      @id @default(cuid())
+  orderId   String
+  order     Order       @relation(fields: [orderId], references: [id])
+  status    OrderStatus
+  note      String?
+  actorId   String
+  actor     User        @relation(fields: [actorId], references: [id])
+  actorRole Role
+  timestamp DateTime    @default(now())
+}
+
+model Notification {
+  id        String              @id @default(cuid())
+  orderId   String
+  order     Order               @relation(fields: [orderId], references: [id])
+  channel   NotificationChannel
+  recipient String
+  subject   String
+  body      String
+  status    String              @default("SENT") // SENT | FAILED
+  sentAt    DateTime            @default(now())
+}
