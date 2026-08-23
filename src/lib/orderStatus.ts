@@ -1,6 +1,7 @@
 import { prisma } from "./prisma";
 import { OrderStatus, Role } from "@prisma/client";
 import { sendOrderStatusEmail } from "./notifications";
+import { sendOrderStatusSms } from "./smsNotifications";
 
 /**
  * Status Lifecycle
@@ -63,6 +64,7 @@ export async function transitionOrderStatus(params: {
   ]);
 
   await sendOrderStatusEmail(order.customer.email, order.id, toStatus, note);
+  await sendOrderStatusSms(order.customer.phone, order.id, toStatus, note);
 
   return historyRow;
 }

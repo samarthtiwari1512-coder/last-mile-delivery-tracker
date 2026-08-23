@@ -2,7 +2,7 @@
 
 A delivery management platform where customers/admins create orders with auto-calculated,
 zone-based charges, agents get assigned intelligently (manually or automatically), and
-customers are notified by email at every status change.
+customers are notified by **email and SMS** at every status change.
 
 Built with **Next.js 14 (App Router) + TypeScript + Prisma + PostgreSQL + NextAuth + Tailwind CSS**.
 
@@ -14,7 +14,7 @@ Built with **Next.js 14 (App Router) + TypeScript + Prisma + PostgreSQL + NextAu
 git clone <your-repo-url>
 cd last-mile-delivery-tracker
 npm install
-cp .env.example .env      # fill in DATABASE_URL, NEXTAUTH_SECRET, SMTP_*
+cp .env.example .env      # fill in DATABASE_URL, NEXTAUTH_SECRET, SMTP_*, and optionally TWILIO_*
 npx prisma migrate dev --name init
 npm run seed               # creates admin/agent/customer test accounts + zones + rate cards
 npm run dev
@@ -46,6 +46,9 @@ SMTP_PORT="587"
 SMTP_USER="your-email@gmail.com"
 SMTP_PASS="your-app-password"
 SMTP_FROM="Delivery Tracker <no-reply@delivery-tracker.local>"
+TWILIO_ACCOUNT_SID="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+TWILIO_AUTH_TOKEN="your-auth-token"
+TWILIO_FROM_NUMBER="+15005550006"
 ```
 
 - **DATABASE_URL**: any Postgres works — [Neon](https://neon.tech) or [Supabase](https://supabase.com)
@@ -53,6 +56,11 @@ SMTP_FROM="Delivery Tracker <no-reply@delivery-tracker.local>"
 - **SMTP**: any free-tier SMTP provider works (Gmail with an App Password, Mailtrap, Brevo).
   If `SMTP_HOST` is left empty, the app logs emails to the console instead of failing —
   useful for local dev without setting up SMTP.
+- **Twilio SMS**: sign up at [twilio.com/try-twilio](https://www.twilio.com/try-twilio) (no credit card
+  for the trial). The trial provides a real phone number and ~15 SMS credits. Leave the three
+  `TWILIO_*` vars blank for local dev — the app logs `[sms:mock]` to the console instead and
+  still writes a `Notification` row to the DB. Note: trial accounts can only send to
+  **verified** phone numbers (verify yours in the Twilio Console).
 
 ---
 
@@ -153,6 +161,7 @@ email fires on every transition.
 | POST | `/api/orders/quote` | Get a price quote before confirming |
 | POST | `/api/orders/create` | Create an order (customer, or admin on behalf of customer) |
 | GET | `/api/orders` | List orders (role-scoped: own orders / assigned orders / all, with filters for admin) |
+| GET | `/api/orders/:id` | Single order with full `OrderStatusHistory` timeline (same role-based access) |
 | PATCH | `/api/orders/:id/status` | Agent updates status; admin can override any transition |
 | POST | `/api/orders/:id/assign` | Admin manual or auto agent assignment |
 | POST | `/api/orders/:id/reschedule` | Customer reschedules a failed delivery |
@@ -183,6 +192,7 @@ Per submission guidelines, dependencies are kept to only what's strictly require
 | `@prisma/client`, `prisma` | Type-safe DB access matching the required schema/ORM |
 | `next-auth`, `bcryptjs` | Role-based auth (customer/agent/admin) with hashed passwords — required by spec |
 | `nodemailer` | Email notifications on every status change — required by spec |
+| `twilio` | SMS notifications on every status change — required by spec ("Email and SMS integration"); no native Node.js SMS API exists |
 | `zod` | Runtime validation for every API input (rejects malformed requests before they hit the DB) |
 | `tailwindcss`, `postcss`, `autoprefixer` | Styling toolchain, dev-only |
 | `typescript`, `tsx`, `@types/*` | Type safety and running the seed script, dev-only |
@@ -206,7 +216,6 @@ in the dependency tree is either the core stack or directly required by a featur
 ## 11. What I'd add with more time
 
 - Live agent location updates (mobile geolocation ping) instead of static `lat/lng`.
-- SMS notifications (Twilio free trial) alongside email.
-- Admin UI for zones/rate cards (currently API-only; can be driven via Postman/curl or a small
-  admin form).
 - Rate-card versioning so historical orders keep the rate that was active when they were placed.
+- WebSocket or SSE-based real-time status push (currently requires a manual page refresh).
+- Push notifications (FCM) for mobile-first customers alongside the existing email + SMS.
