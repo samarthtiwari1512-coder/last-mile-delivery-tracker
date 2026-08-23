@@ -2,18 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-slate-50 text-slate-900;
+/* Inter from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-surface text-slate-900 antialiased;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1 { @apply text-2xl font-bold tracking-tight; }
+  h2 { @apply text-lg font-semibold; }
 }
 
-.input {
-  @apply border rounded-md px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-brand;
-}
+@layer components {
+  /* ── Form inputs ─────────────────────────────────────────── */
+  .input {
+    @apply border border-slate-200 rounded-lg px-3 py-2 text-sm w-full
+           bg-white text-slate-900 placeholder-slate-400
+           focus:outline-none focus:ring-2 focus:ring-brand/40 focus:border-brand
+           transition-colors;
+  }
 
-.btn-primary {
-  @apply bg-brand text-white rounded-md px-4 py-2 text-sm font-medium hover:bg-brand-dark disabled:opacity-50;
-}
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-brand text-white rounded-lg px-4 py-2 text-sm font-medium
+           shadow-brand/20 hover:bg-brand-dark hover:shadow-brand
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed
+           transition-all duration-150;
+  }
 
-.btn-secondary {
-  @apply border rounded-md px-4 py-2 text-sm font-medium hover:bg-slate-100;
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           border border-slate-200 bg-white rounded-lg px-4 py-2 text-sm font-medium
+           text-slate-700 hover:bg-surface-muted hover:border-slate-300
+           active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed
+           transition-all duration-150;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────── */
+  .card {
+    @apply bg-surface-card border border-slate-100 rounded-xl shadow-card;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-card-hover hover:border-brand/30 transition-all duration-200;
+  }
+
+  /* ── Section headings ────────────────────────────────────── */
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-widest text-slate-400;
+  }
+
+  /* ── Status pill (extends StatusBadge colours) ───────────── */
+  .pill {
+    @apply text-xs font-medium px-2.5 py-1 rounded-full;
+  }
 }

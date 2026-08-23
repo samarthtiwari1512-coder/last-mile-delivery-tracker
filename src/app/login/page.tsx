@@ -9,22 +9,80 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     const res = await signIn("credentials", { email, password, redirect: false });
-    if (res?.error) setError("Invalid email or password");
+    setLoading(false);
+    if (res?.error) setError("Invalid email or password. Check the seeded test accounts in the README.");
     else router.push("/");
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto bg-white border rounded-lg p-6 space-y-4">
-      <h1 className="text-xl font-semibold">Log in</h1>
-      <input className="input" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input className="input" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      {error && <p className="text-red-600 text-sm">{error}</p>}
-      <button className="btn-primary w-full" type="submit">Log in</button>
-    </form>
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="w-full max-w-sm">
+        {/* Card */}
+        <div className="card p-8 space-y-6">
+          <div className="text-center space-y-1">
+            <div className="w-12 h-12 rounded-2xl bg-brand-50 flex items-center justify-center mx-auto mb-4">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+              </svg>
+            </div>
+            <h1 className="text-xl font-bold text-slate-900">Welcome back</h1>
+            <p className="text-sm text-slate-500">Sign in to your account to continue</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Email</label>
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-slate-600 mb-1">Password</label>
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-xs text-red-700">
+                {error}
+              </div>
+            )}
+
+            <button className="btn-primary w-full py-2.5" type="submit" disabled={loading}>
+              {loading ? "Signing in…" : "Sign in"}
+            </button>
+          </form>
+
+          <p className="text-center text-xs text-slate-400">
+            Don&apos;t have an account?{" "}
+            <a href="/register" className="text-brand hover:underline font-medium">
+              Register here
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
