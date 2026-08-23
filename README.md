@@ -11,7 +11,7 @@ Built with **Next.js 14 (App Router) + TypeScript + Prisma + PostgreSQL + NextAu
 ## 1. Quick Start
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/samarthtiwari1512-coder/last-mile-delivery-tracker.git
 cd last-mile-delivery-tracker
 npm install
 cp .env.example .env      # fill in DATABASE_URL, NEXTAUTH_SECRET, SMTP_*, and optionally TWILIO_*
@@ -207,9 +207,9 @@ in the dependency tree is either the core stack or directly required by a featur
 - [x] `node_modules/`, `.next/`, `out/`, `dist/`, `.env`, `.vscode/`, `.idea/` all git-ignored
 - [x] No unused/extra packages — see §9 above
 - [x] App runs via `npm install && npx prisma migrate dev && npm run seed && npm run dev`
-- [ ] Push to a **public** GitHub repo on the **`main`** branch (not `master`)
-- [ ] Confirm the repo is downloadable/clonable from a fresh, logged-out browser session
-- [ ] Hosted deployment URL added to this README before submitting
+- [x] Public GitHub repo on the `main` branch: https://github.com/samarthtiwari1512-coder/last-mile-delivery-tracker
+- [x] Repo is downloadable/clonable from a fresh, logged-out browser session
+- [ ] Hosted deployment URL added below before submitting
 
 ---
 
