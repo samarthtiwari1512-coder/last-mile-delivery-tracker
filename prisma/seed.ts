@@ -37,6 +37,8 @@ async function main() {
     { pincode: "700016", label: "Park Street, Kolkata", zone: "East Zone" },
     { pincode: "400001", label: "Fort, Mumbai", zone: "West Zone" },
     { pincode: "400051", label: "Bandra, Mumbai", zone: "West Zone" },
+    { pincode: "207247", label: "Kasganj, Uttar Pradesh", zone: "North Zone" },
+    { pincode: "370110", label: "Kutch, Gujarat", zone: "West Zone" },
   ];
   for (const a of areaSeed) {
     const zone = zones.find((z) => z.name === a.zone)!;
