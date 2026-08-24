@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { PackageOpen, MapPin, Calculator, CheckCircle2, ChevronRight, Package, Receipt, Banknote, HelpCircle, AlertTriangle } from "lucide-react";
 
 type Quote = {
   chargeableWeightKg: number;
@@ -85,77 +86,193 @@ export default function NewOrderPage() {
 
   if (confirmed) {
     return (
-      <div className="card p-6 max-w-md">
-        <h1 className="text-xl font-semibold mb-2">Order placed 🎉</h1>
-        <p className="text-slate-600">You'll get an email as the status updates. Track it from your dashboard.</p>
+      <div className="max-w-2xl mx-auto py-12 px-4">
+        <div className="card p-10 text-center flex flex-col items-center gap-4 bg-success-50 border-success-200">
+          <div className="w-20 h-20 bg-success-100 rounded-full flex items-center justify-center mb-2 ring-8 ring-success-50">
+            <CheckCircle2 className="w-10 h-10 text-success-600" />
+          </div>
+          <h1 className="text-3xl font-bold text-success-900 tracking-tight">Order Placed Successfully!</h1>
+          <p className="text-success-800 text-lg max-w-sm">
+            Your shipment has been queued for assignment. You'll receive email updates automatically.
+          </p>
+          <a href={dashHref} className="btn-primary mt-6 px-8 py-3 rounded-full shadow-brand-sm">
+            Go to Dashboard
+          </a>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-xl space-y-4">
-      <Breadcrumb items={[{ label: "Dashboard", href: dashHref }, { label: "New Order" }]} />
-      <h1 className="text-2xl font-bold">New Order</h1>
+    <div className="max-w-2xl mx-auto space-y-6">
+      <Breadcrumb items={[{ label: "Dashboard", href: dashHref }, { label: "New Shipment" }]} />
+      
+      <div>
+        <h1 className="text-3xl font-bold text-ink tracking-tight mb-2">Create Shipment</h1>
+        <p className="text-ink-secondary">Enter pickup, drop, and package details to get an instant quote.</p>
+      </div>
 
-      <div className="card p-6 space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          <input className="input" placeholder="Pickup address" value={form.pickupAddress}
-            onChange={(e) => setForm({ ...form, pickupAddress: e.target.value })} />
-          <input className="input" placeholder="Pickup pincode" value={form.pickupPincode}
-            onChange={(e) => setForm({ ...form, pickupPincode: e.target.value })} />
-          <input className="input" placeholder="Drop address" value={form.dropAddress}
-            onChange={(e) => setForm({ ...form, dropAddress: e.target.value })} />
-          <input className="input" placeholder="Drop pincode" value={form.dropPincode}
-            onChange={(e) => setForm({ ...form, dropPincode: e.target.value })} />
-        </div>
-
-        <div className="grid grid-cols-4 gap-3">
-          <input className="input" placeholder="L (cm)" value={form.lengthCm}
-            onChange={(e) => setForm({ ...form, lengthCm: e.target.value })} />
-          <input className="input" placeholder="B (cm)" value={form.breadthCm}
-            onChange={(e) => setForm({ ...form, breadthCm: e.target.value })} />
-          <input className="input" placeholder="H (cm)" value={form.heightCm}
-            onChange={(e) => setForm({ ...form, heightCm: e.target.value })} />
-          <input className="input" placeholder="Weight (kg)" value={form.actualWeightKg}
-            onChange={(e) => setForm({ ...form, actualWeightKg: e.target.value })} />
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <select className="input" value={form.orderType}
-            onChange={(e) => setForm({ ...form, orderType: e.target.value })}>
-            <option value="B2C">B2C</option>
-            <option value="B2B">B2B</option>
-          </select>
-          <select className="input" value={form.paymentType}
-            onChange={(e) => setForm({ ...form, paymentType: e.target.value })}>
-            <option value="PREPAID">Prepaid</option>
-            <option value="COD">COD</option>
-          </select>
-        </div>
-
-        {error && <p className="text-red-600 text-sm">{error}</p>}
-
-        {!quote ? (
-          <button onClick={getQuote} disabled={loading} className="btn-primary">
-            {loading ? "Calculating..." : "Get Price"}
-          </button>
-        ) : (
-          <div className="space-y-3">
-            <div className="bg-slate-50 border rounded-lg p-4 text-sm space-y-1">
-              <div className="flex justify-between"><span>Rate type</span><span>{quote.rateType}</span></div>
-              <div className="flex justify-between"><span>Chargeable weight</span><span>{quote.chargeableWeightKg.toFixed(2)} kg</span></div>
-              <div className="flex justify-between"><span>Base + weight charge</span><span>₹{quote.weightCharge.toFixed(2)}</span></div>
-              <div className="flex justify-between"><span>COD surcharge</span><span>₹{quote.codSurcharge.toFixed(2)}</span></div>
-              <div className="flex justify-between font-semibold text-base pt-1 border-t"><span>Total</span><span>₹{quote.totalCharge.toFixed(2)}</span></div>
+      <div className="card border-surface-border-muted shadow-sm overflow-hidden">
+        {/* Step 1: Addresses */}
+        <div className="p-6 sm:p-8 space-y-6">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-8 rounded-full bg-brand-50 text-brand flex items-center justify-center font-bold text-sm ring-4 ring-brand-50/50">1</div>
+            <h2 className="text-lg font-bold text-ink">Routing Details</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-ink-muted">
+                <MapPin className="w-4 h-4" />
+                <span className="text-xs font-semibold uppercase tracking-wider">Origin</span>
+              </div>
+              <input className="input" placeholder="Pickup Address (e.g., 123 Main St)" value={form.pickupAddress}
+                onChange={(e) => setForm({ ...form, pickupAddress: e.target.value })} disabled={!!quote} />
+              <input className="input font-mono" placeholder="Pincode (e.g., 110001)" value={form.pickupPincode}
+                onChange={(e) => setForm({ ...form, pickupPincode: e.target.value })} disabled={!!quote} />
             </div>
-            <div className="flex gap-3">
-              <button onClick={confirmOrder} disabled={loading} className="btn-primary">
-                {loading ? "Placing..." : "Confirm Order"}
-              </button>
-              <button onClick={() => setQuote(null)} className="btn-secondary">Edit details</button>
+            
+            <div className="hidden sm:block absolute left-1/2 top-[4.5rem] bottom-4 w-px bg-surface-border-muted -translate-x-1/2" />
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-ink-muted">
+                <MapPin className="w-4 h-4" />
+                <span className="text-xs font-semibold uppercase tracking-wider">Destination</span>
+              </div>
+              <input className="input" placeholder="Drop Address (e.g., 456 Park Ave)" value={form.dropAddress}
+                onChange={(e) => setForm({ ...form, dropAddress: e.target.value })} disabled={!!quote} />
+              <input className="input font-mono" placeholder="Pincode (e.g., 110002)" value={form.dropPincode}
+                onChange={(e) => setForm({ ...form, dropPincode: e.target.value })} disabled={!!quote} />
             </div>
           </div>
-        )}
+        </div>
+
+        <div className="divider opacity-50 m-0" />
+
+        {/* Step 2: Package & Config */}
+        <div className="p-6 sm:p-8 space-y-6 bg-surface-muted/30">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-8 rounded-full bg-brand-50 text-brand flex items-center justify-center font-bold text-sm ring-4 ring-brand-50/50">2</div>
+            <h2 className="text-lg font-bold text-ink">Package Details</h2>
+          </div>
+
+          <div className="space-y-5">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-2 block flex items-center gap-1.5">
+                <PackageOpen className="w-4 h-4" /> Dimensions & Weight
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="relative">
+                  <input type="number" className="input pr-8" placeholder="L" value={form.lengthCm} onChange={(e) => setForm({ ...form, lengthCm: e.target.value })} disabled={!!quote} />
+                  <span className="absolute right-3 top-2.5 text-xs text-ink-muted font-medium">cm</span>
+                </div>
+                <div className="relative">
+                  <input type="number" className="input pr-8" placeholder="W" value={form.breadthCm} onChange={(e) => setForm({ ...form, breadthCm: e.target.value })} disabled={!!quote} />
+                  <span className="absolute right-3 top-2.5 text-xs text-ink-muted font-medium">cm</span>
+                </div>
+                <div className="relative">
+                  <input type="number" className="input pr-8" placeholder="H" value={form.heightCm} onChange={(e) => setForm({ ...form, heightCm: e.target.value })} disabled={!!quote} />
+                  <span className="absolute right-3 top-2.5 text-xs text-ink-muted font-medium">cm</span>
+                </div>
+                <div className="relative">
+                  <input type="number" className="input pr-8 font-semibold" placeholder="Wt" value={form.actualWeightKg} onChange={(e) => setForm({ ...form, actualWeightKg: e.target.value })} disabled={!!quote} />
+                  <span className="absolute right-3 top-2.5 text-xs text-ink-muted font-medium">kg</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-2 block flex items-center gap-1.5">
+                  <Banknote className="w-4 h-4" /> Service Type
+                </label>
+                <select className="input bg-white" value={form.orderType} onChange={(e) => setForm({ ...form, orderType: e.target.value })} disabled={!!quote}>
+                  <option value="B2C">B2C (Standard Delivery)</option>
+                  <option value="B2B">B2B (Bulk Freight)</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-wider text-ink-muted mb-2 block flex items-center gap-1.5">
+                  <Receipt className="w-4 h-4" /> Payment Mode
+                </label>
+                <select className="input bg-white" value={form.paymentType} onChange={(e) => setForm({ ...form, paymentType: e.target.value })} disabled={!!quote}>
+                  <option value="PREPAID">Prepaid</option>
+                  <option value="COD">Cash on Delivery (COD)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Step 3: Actions & Quote */}
+        <div className="p-6 sm:p-8 bg-brand-900 text-white relative overflow-hidden">
+          <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-brand-600/30 to-transparent pointer-events-none" />
+          
+          {error && (
+            <div className="bg-red-500/10 border-l-4 border-red-500 p-4 rounded-r text-red-200 text-sm mb-6 flex items-start gap-3 backdrop-blur-sm relative z-10">
+              <AlertTriangle className="w-5 h-5 flex-shrink-0" />
+              <div>
+                <p className="font-bold text-white mb-0.5">Validation Error</p>
+                <p>{error}</p>
+              </div>
+            </div>
+          )}
+
+          {!quote ? (
+            <div className="relative z-10 flex flex-col items-center text-center py-4">
+              <Calculator className="w-12 h-12 text-brand-300 mb-4 opacity-50" strokeWidth={1.5} />
+              <h3 className="text-xl font-bold mb-2">Ready for pricing?</h3>
+              <p className="text-brand-200 text-sm mb-6 max-w-sm">We calculate real-time rates based on volumetric weight and zone distance.</p>
+              <button onClick={getQuote} disabled={loading} className="btn-primary bg-white text-brand-900 hover:bg-brand-50 shadow-lg px-8 py-3 rounded-xl w-full sm:w-auto font-bold text-lg disabled:opacity-70 disabled:cursor-wait">
+                {loading ? "Calculating Engine Rates..." : "Calculate Shipping Quote"}
+              </button>
+            </div>
+          ) : (
+            <div className="relative z-10 space-y-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-success-500/20 text-success-300 flex items-center justify-center font-bold text-sm ring-4 ring-success-500/10">
+                  <CheckCircle2 className="w-5 h-5" />
+                </div>
+                <h2 className="text-xl font-bold">Quote Approved</h2>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 space-y-3 font-medium">
+                <div className="flex justify-between text-brand-100">
+                  <span>Routing Zone</span>
+                  <span className="font-mono text-xs uppercase tracking-wider bg-black/20 px-2 py-0.5 rounded">{quote.rateType.replace("_", " ")}</span>
+                </div>
+                <div className="flex justify-between text-brand-100">
+                  <span>Chargeable Weight</span>
+                  <span className="font-mono">{quote.chargeableWeightKg.toFixed(2)} kg</span>
+                </div>
+                <div className="flex justify-between text-brand-100">
+                  <span>Freight Charge</span>
+                  <span className="font-mono">₹{quote.weightCharge.toFixed(2)}</span>
+                </div>
+                {quote.codSurcharge > 0 && (
+                  <div className="flex justify-between text-warning-300">
+                    <span>COD Handling Fee</span>
+                    <span className="font-mono">+₹{quote.codSurcharge.toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="divider border-white/20 my-4" />
+                <div className="flex justify-between font-black text-2xl text-white">
+                  <span>Total Due</span>
+                  <span>₹{quote.totalCharge.toFixed(2)}</span>
+                </div>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <button onClick={confirmOrder} disabled={loading} className="btn-primary flex-1 bg-success-500 hover:bg-success-400 text-white border-0 shadow-lg shadow-success-500/20 py-3 rounded-xl font-bold text-lg disabled:opacity-70 disabled:cursor-wait">
+                  {loading ? "Processing..." : "Confirm & Book Shipment"}
+                </button>
+                <button onClick={() => setQuote(null)} className="btn-secondary flex-1 sm:flex-none bg-white/10 text-white hover:bg-white/20 border-white/20 py-3 rounded-xl font-semibold">
+                  Edit Details
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { LogIn, ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -22,24 +23,22 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="w-full max-w-sm">
+    <div className="min-h-[80vh] flex items-center justify-center relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
+      
+      <div className="w-full max-w-sm px-4">
         {/* Card */}
-        <div className="card p-8 space-y-6">
-          <div className="text-center space-y-1">
-            <div className="w-12 h-12 rounded-2xl bg-brand-50 flex items-center justify-center mx-auto mb-4">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-                <polyline points="10 17 15 12 10 7" />
-                <line x1="15" y1="12" x2="3" y2="12" />
-              </svg>
+        <div className="card p-8 sm:p-10 space-y-8 bg-surface-card border-surface-border-muted shadow-card relative z-10">
+          <div className="text-center space-y-2">
+            <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand flex items-center justify-center mx-auto mb-6 shadow-sm border border-brand-100">
+              <ShieldCheck className="w-7 h-7" strokeWidth={1.5} />
             </div>
-            <h1 className="text-xl font-bold text-ink">Welcome back</h1>
+            <h1 className="text-2xl font-bold text-ink tracking-tight">Welcome back</h1>
             <p className="text-sm text-ink-secondary">Sign in to your account to continue</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-ink-secondary mb-1">Email</label>
                 <input
@@ -70,14 +69,16 @@ export default function LoginPage() {
               </div>
             )}
 
-            <button className="btn-primary w-full py-2.5" type="submit" disabled={loading}>
-              {loading ? "Signing in…" : "Sign in"}
+            <button className="btn-primary w-full py-3 text-sm flex items-center justify-center gap-2" type="submit" disabled={loading}>
+              {loading ? "Signing in…" : (
+                <>Sign in <ArrowRight className="w-4 h-4" /></>
+              )}
             </button>
           </form>
 
-          <p className="text-center text-xs text-ink-muted">
+          <p className="text-center text-sm text-ink-muted">
             Don&apos;t have an account?{" "}
-            <a href="/register" className="text-brand hover:text-brand-700 font-semibold">
+            <a href="/register" className="text-brand hover:text-brand-700 font-bold underline decoration-brand/30 underline-offset-4">
               Register here
             </a>
           </p>

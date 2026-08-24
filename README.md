@@ -10,6 +10,8 @@ Built with **Next.js 14 (App Router) + TypeScript + Prisma + PostgreSQL + NextAu
 
 ## 1. Quick Start
 
+Live deployment: **[https://last-mile-delivery-tracker-liard.vercel.app/](https://last-mile-delivery-tracker-liard.vercel.app/)**
+
 ```bash
 git clone https://github.com/samarthtiwari1512-coder/last-mile-delivery-tracker.git
 cd last-mile-delivery-tracker
@@ -194,10 +196,11 @@ Per submission guidelines, dependencies are kept to only what's strictly require
 | `nodemailer` | Email notifications on every status change — required by spec |
 | `twilio` | SMS notifications on every status change — required by spec ("Email and SMS integration"); no native Node.js SMS API exists |
 | `zod` | Runtime validation for every API input (rejects malformed requests before they hit the DB) |
+| `lucide-react` | Standardized, accessible SVG iconography for the modern "Control Tower" UI |
 | `tailwindcss`, `postcss`, `autoprefixer` | Styling toolchain, dev-only |
 | `typescript`, `tsx`, `@types/*` | Type safety and running the seed script, dev-only |
 
-No UI component libraries, icon packs, state-management libraries, or analytics — everything
+No heavy UI component frameworks (MUI/Chakra), state-management libraries, or analytics — everything
 in the dependency tree is either the core stack or directly required by a feature in the brief.
 
 ---
@@ -209,7 +212,8 @@ in the dependency tree is either the core stack or directly required by a featur
 - [x] App runs via `npm install && npx prisma migrate dev && npm run seed && npm run dev`
 - [x] Public GitHub repo on the `main` branch: https://github.com/samarthtiwari1512-coder/last-mile-delivery-tracker
 - [x] Repo is downloadable/clonable from a fresh, logged-out browser session
-- [ ] Hosted deployment URL added below before submitting
+- [x] Hosted deployment URL added below before submitting:
+  **https://last-mile-delivery-tracker-liard.vercel.app/**
 
 ---
 

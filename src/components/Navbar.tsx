@@ -2,6 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
+import { Package2, LogOut, LayoutDashboard } from "lucide-react";
 
 // Role → display label + pill color
 const ROLE_META: Record<string, { label: string; bg: string; text: string }> = {
@@ -37,15 +38,10 @@ export function Navbar() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* ── Logo ─────────────────────────────────── */}
         <a href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3" />
-              <rect x="9" y="11" width="14" height="10" rx="2" />
-              <circle cx="12" cy="21" r="1" />
-              <circle cx="20" cy="21" r="1" />
-            </svg>
+          <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shadow-brand-sm group-hover:shadow-brand transition-all duration-300">
+            <Package2 className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
-          <span className="font-bold text-slate-900 tracking-tight hidden sm:inline">
+          <span className="font-bold text-ink tracking-tight hidden sm:inline text-lg" style={{ letterSpacing: "-0.03em" }}>
             Last<span className="text-brand">Mile</span>
           </span>
         </a>
@@ -67,7 +63,7 @@ export function Navbar() {
                   </span>
                 </div>
                 {/* Name */}
-                <span className="text-sm font-medium text-slate-700 max-w-[120px] truncate">
+                <span className="text-sm font-semibold text-ink max-w-[120px] truncate" style={{ letterSpacing: "-0.01em" }}>
                   {user?.name ?? user?.email}
                 </span>
                 {/* Role pill */}
@@ -88,15 +84,17 @@ export function Navbar() {
 
               <a
                 href={dashHref}
-                className="text-sm text-slate-600 hover:text-brand px-2 sm:px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors font-medium"
+                className="flex items-center gap-1.5 text-sm font-medium text-ink-secondary hover:text-ink px-2 sm:px-3 py-1.5 rounded-lg hover:bg-surface-muted transition-colors"
               >
+                <LayoutDashboard className="w-4 h-4 text-ink-muted" />
                 Dashboard
               </a>
 
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="btn-secondary text-sm py-1.5 px-2 sm:px-3"
+                className="flex items-center gap-1.5 text-sm font-medium text-ink-secondary hover:text-danger px-2 sm:px-3 py-1.5 rounded-lg hover:bg-danger-50 transition-colors"
               >
+                <LogOut className="w-4 h-4" />
                 Log out
               </button>
             </div>
@@ -105,11 +103,11 @@ export function Navbar() {
             <div className="flex items-center gap-1">
               <a
                 href="/login"
-                className="text-sm text-slate-600 hover:text-brand px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
+                className="text-sm font-medium text-ink-secondary hover:text-ink px-3 py-1.5 rounded-lg hover:bg-surface-muted transition-colors"
               >
                 Login
               </a>
-              <a href="/register" className="btn-primary text-sm py-1.5 px-3 sm:px-4">
+              <a href="/register" className="btn-primary py-2 px-4 shadow-brand-sm">
                 Get started
               </a>
             </div>

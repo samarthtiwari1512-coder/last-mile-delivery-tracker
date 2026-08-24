@@ -5,9 +5,13 @@
 @layer base {
   /* ── Typography scale ────────────────────────────────────────────────── */
   body {
-    @apply bg-surface text-ink antialiased;
+    @apply text-ink antialiased bg-surface;
     font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";  /* Inter alternates for clean look */
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-image: 
+      radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.04), transparent 25%),
+      radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.04), transparent 25%);
+    background-attachment: fixed;
   }
 
   /* Page title — large, tight tracking */
@@ -86,7 +90,10 @@
 
   /* Stat tile — slightly more prominent surface */
   .stat-card {
-    @apply card px-5 py-4 flex-1 min-w-[100px];
+    @apply bg-surface-card border border-surface-border-muted rounded-2xl shadow-card px-6 py-5 flex-1 min-w-[150px] relative overflow-hidden transition-all duration-300;
+  }
+  .stat-card:hover {
+    @apply shadow-card-hover border-brand/20 -translate-y-0.5;
   }
 
   /* ── Labels / metadata ────────────────────────────────────────────────── */

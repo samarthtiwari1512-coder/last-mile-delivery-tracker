@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { UserPlus, ArrowRight } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -30,25 +31,22 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center">
-      <div className="w-full max-w-sm">
+    <div className="min-h-[80vh] flex items-center justify-center relative overflow-hidden py-12">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
+
+      <div className="w-full max-w-sm px-4">
         {/* Card */}
-        <div className="card p-8 space-y-6">
-          <div className="text-center space-y-1">
-            <div className="w-12 h-12 rounded-2xl bg-brand-50 flex items-center justify-center mx-auto mb-4">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="8.5" cy="7" r="4" />
-                <line x1="20" y1="8" x2="20" y2="14" />
-                <line x1="23" y1="11" x2="17" y2="11" />
-              </svg>
+        <div className="card p-8 sm:p-10 space-y-8 bg-surface-card border-surface-border-muted shadow-card relative z-10">
+          <div className="text-center space-y-2">
+            <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand flex items-center justify-center mx-auto mb-6 shadow-sm border border-brand-100">
+              <UserPlus className="w-7 h-7" strokeWidth={1.5} />
             </div>
-            <h1 className="text-xl font-bold text-ink">Create account</h1>
+            <h1 className="text-2xl font-bold text-ink tracking-tight">Create account</h1>
             <p className="text-sm text-ink-secondary">Sign up to start shipping</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-ink-secondary mb-1">Full name</label>
                 <input
@@ -109,17 +107,19 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <button className="btn-primary w-full py-2.5" disabled={loading} type="submit">
-              {loading ? "Creating..." : "Register"}
+            <button className="btn-primary w-full py-3 text-sm flex items-center justify-center gap-2" disabled={loading} type="submit">
+              {loading ? "Creating..." : (
+                <>Register <ArrowRight className="w-4 h-4" /></>
+              )}
             </button>
-            <p className="text-xs text-center text-slate-500">
+            <p className="text-xs text-center text-ink-muted">
               Admin accounts are created via the seed script.
             </p>
           </form>
 
-          <p className="text-center text-xs text-ink-muted">
+          <p className="text-center text-sm text-ink-muted">
             Already have an account?{" "}
-            <a href="/login" className="text-brand hover:text-brand-700 font-semibold">
+            <a href="/login" className="text-brand hover:text-brand-700 font-bold underline decoration-brand/30 underline-offset-4">
               Log in here
             </a>
           </p>
