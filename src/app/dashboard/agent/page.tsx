@@ -126,10 +126,10 @@ export default function AgentDashboard() {
   return (
     <div className="space-y-10">
       {/* ── Page hero ──────────────────────────────────────────────────── */}
-      <div className="relative rounded-3xl bg-brand-900 text-white overflow-hidden p-8 sm:p-12 shadow-brand">
-        <div className="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-l from-brand-500/30 to-transparent" />
-          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 text-brand-400" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1">
+      <div className="relative rounded-3xl bg-midnight text-white overflow-hidden p-8 sm:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-white/5">
+        <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-20 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-l from-midnight to-transparent" />
+          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 text-success-500 animate-pulse-slow" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="0.5">
             <path d="M 20 100 Q 100 0, 180 100" />
             <path d="M 20 100 Q 100 200, 180 100" />
             <circle cx="20" cy="100" r="4" fill="currentColor" />
@@ -137,20 +137,23 @@ export default function AgentDashboard() {
           </svg>
         </div>
         
+        {/* Glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-success-600/20 rounded-full blur-[80px] pointer-events-none z-0" />
+
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
           <div className="max-w-lg space-y-4">
-            <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-success-500 animate-pulse" />
+            <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm border border-white/10 text-success-300">
+              <span className="w-1.5 h-1.5 rounded-full bg-success-500 animate-pulse-live" />
               Agent Dashboard
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">My Deliveries</h1>
-              <p className="text-brand-100/80 text-sm sm:text-base leading-relaxed">
+              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3">My Deliveries</h1>
+              <p className="text-slate-400 text-sm sm:text-lg leading-relaxed">
                 Manage your assigned orders, navigate routes, and update statuses.
               </p>
             </div>
           </div>
-          <button onClick={refresh} className="flex items-center gap-2 bg-white text-brand-900 rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm hover:bg-brand-50 transition-colors">
+          <button onClick={refresh} className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/10 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm transition-all duration-300 hover:-translate-y-0.5">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <path d="M23 4v6h-6" /><path d="M1 20v-6h6" />
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />

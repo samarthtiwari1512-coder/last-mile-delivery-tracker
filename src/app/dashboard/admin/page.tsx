@@ -121,11 +121,11 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-10">
       {/* ── Page hero ──────────────────────────────────────────────────── */}
-      <div className="relative rounded-3xl bg-ink text-white overflow-hidden p-8 sm:p-12 shadow-card">
+      <div className="relative rounded-3xl bg-midnight text-white overflow-hidden p-8 sm:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-white/5">
         {/* Abstract graphics */}
-        <div className="absolute right-0 top-0 w-1/2 h-full opacity-10 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-l from-ink to-transparent" />
-          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 text-white" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1">
+        <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-10 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-l from-midnight to-transparent" />
+          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] text-brand-400 animate-pulse-slow" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="0.5">
             <rect x="20" y="20" width="160" height="160" rx="8" />
             <path d="M 60 20 L 60 180 M 140 20 L 140 180" />
             <path d="M 20 60 L 180 60 M 20 140 L 180 140" />
@@ -133,14 +133,17 @@ export default function AdminDashboard() {
           </svg>
         </div>
         
+        {/* Glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-600/20 rounded-full blur-[80px] pointer-events-none z-0" />
+
         <div className="relative z-10 max-w-lg space-y-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm border border-white/10 text-brand-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse-live" />
             Admin Control Center
           </div>
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Fleet Overview</h1>
-            <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3">Fleet Overview</h1>
+            <p className="text-slate-400 text-sm sm:text-lg leading-relaxed">
               Monitor network health, unassigned orders, and system configurations.
             </p>
           </div>
@@ -149,22 +152,22 @@ export default function AdminDashboard() {
 
       {/* ── Admin quick links ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <a href="/dashboard/admin/zones" className="card-hover p-4 flex items-center gap-4 group rounded-2xl bg-surface-card border border-surface-border-muted shadow-sm hover:shadow-card-hover transition-all">
-          <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center flex-shrink-0 group-hover:bg-violet-100 transition-colors">
-            <Map className="w-6 h-6 text-violet-600" />
+        <a href="/dashboard/admin/zones" className="card-hover p-5 flex items-center gap-5 group rounded-3xl bg-white border border-surface-border shadow-sm hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+          <div className="w-14 h-14 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <Map className="w-6 h-6 text-brand-600" strokeWidth={2} />
           </div>
           <div>
-            <p className="text-sm font-bold text-ink">Zones &amp; Areas</p>
-            <p className="text-xs text-ink-secondary mt-0.5">Manage operating regions and pincodes</p>
+            <p className="text-base font-bold text-ink">Zones &amp; Areas</p>
+            <p className="text-sm text-ink-secondary mt-1">Manage operating regions and pincodes</p>
           </div>
         </a>
-        <a href="/dashboard/admin/rates" className="card-hover p-4 flex items-center gap-4 group rounded-2xl bg-surface-card border border-surface-border-muted shadow-sm hover:shadow-card-hover transition-all">
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-100 transition-colors">
-            <CreditCard className="w-6 h-6 text-emerald-600" />
+        <a href="/dashboard/admin/rates" className="card-hover p-5 flex items-center gap-5 group rounded-3xl bg-white border border-surface-border shadow-sm hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+          <div className="w-14 h-14 rounded-2xl bg-success-50 border border-success-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <CreditCard className="w-6 h-6 text-success-600" strokeWidth={2} />
           </div>
           <div>
-            <p className="text-sm font-bold text-ink">Rate Cards &amp; Pricing</p>
-            <p className="text-xs text-ink-secondary mt-0.5">Configure distance/weight formulas and COD logic</p>
+            <p className="text-base font-bold text-ink">Rate Cards &amp; Pricing</p>
+            <p className="text-sm text-ink-secondary mt-1">Configure distance/weight formulas and COD logic</p>
           </div>
         </a>
       </div>

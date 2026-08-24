@@ -174,68 +174,90 @@ export default function OrderDetailPage() {
       />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-ink tracking-tight" style={{ letterSpacing: "-0.02em" }}>Control View</h1>
-          <p className="text-sm text-ink-muted mt-1 font-mono">#{order.id.toUpperCase()}</p>
+      <div className="relative rounded-3xl bg-midnight text-white overflow-hidden p-6 sm:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-white/5">
+        <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-20 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-l from-midnight to-transparent" />
+          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 text-brand-400 animate-pulse-slow" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="0.5">
+            <rect x="20" y="20" width="160" height="160" rx="8" />
+            <path d="M 60 20 L 60 180 M 140 20 L 140 180" />
+            <circle cx="100" cy="100" r="16" fill="currentColor" />
+          </svg>
         </div>
-        <StatusBadge status={order.status} />
+        
+        {/* Glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-brand-600/20 rounded-full blur-[60px] pointer-events-none z-0" />
+
+        <div className="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm border border-white/10 text-brand-300 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse-live" />
+              Order Control View
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-1 text-white">
+              #{order.id.slice(-8).toUpperCase()}
+            </h1>
+            <p className="text-sm text-slate-400 font-mono tracking-wider">{order.id}</p>
+          </div>
+          <div className="flex-shrink-0 bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/10">
+            <StatusBadge status={order.status} />
+          </div>
+        </div>
       </div>
 
       {/* Summary card */}
-      <div className="card p-6 space-y-6 bg-surface-card border-surface-border-muted shadow-card relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-          <Package className="w-32 h-32" />
+      <div className="card p-6 space-y-6 bg-white border-surface-border shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+          <Package className="w-48 h-48" />
         </div>
         
         <div className="flex items-center gap-2 mb-2 relative z-10">
-          <FileText className="w-5 h-5 text-ink-muted" />
+          <FileText className="w-5 h-5 text-brand" />
           <h2 className="text-sm font-bold text-ink uppercase tracking-wider">Shipment Details</h2>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-sm relative z-10 bg-surface-muted/30 p-5 rounded-2xl border border-surface-border-muted/50">
-          <div className="flex gap-3">
-            <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border">
-              <MapPin className="w-4 h-4 text-ink-secondary" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-sm relative z-10 bg-slate-50/80 p-5 rounded-2xl border border-surface-border">
+          <div className="flex gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border text-brand">
+              <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">Pickup</p>
+              <p className="text-[10px] font-bold text-ink-muted uppercase tracking-widest mb-1">Pickup</p>
               <p className="font-bold text-ink mb-0.5">{order.pickupZone.name}</p>
-              <p className="font-medium text-ink-secondary text-xs leading-snug">{order.pickupAddress}</p>
-              <p className="text-xs text-ink-muted mt-1 font-mono">{order.pickupPincode}</p>
+              <p className="font-medium text-ink-secondary text-xs leading-relaxed">{order.pickupAddress}</p>
+              <p className="text-xs text-ink-muted mt-1 font-mono bg-white inline-block px-2 py-0.5 rounded border border-surface-border">{order.pickupPincode}</p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border">
-              <MapPin className="w-4 h-4 text-ink-secondary" />
+          <div className="flex gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border text-brand">
+              <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">Dropoff</p>
+              <p className="text-[10px] font-bold text-ink-muted uppercase tracking-widest mb-1">Dropoff</p>
               <p className="font-bold text-ink mb-0.5">{order.dropZone.name}</p>
-              <p className="font-medium text-ink-secondary text-xs leading-snug">{order.dropAddress}</p>
-              <p className="text-xs text-ink-muted mt-1 font-mono">{order.dropPincode}</p>
+              <p className="font-medium text-ink-secondary text-xs leading-relaxed">{order.dropAddress}</p>
+              <p className="text-xs text-ink-muted mt-1 font-mono bg-white inline-block px-2 py-0.5 rounded border border-surface-border">{order.dropPincode}</p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border">
-              <User className="w-4 h-4 text-ink-secondary" />
+          <div className="flex gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border text-brand">
+              <User className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">Customer</p>
+              <p className="text-[10px] font-bold text-ink-muted uppercase tracking-widest mb-1">Customer</p>
               <p className="font-bold text-ink mb-0.5">{order.customer.name}</p>
               <p className="text-xs text-ink-muted font-medium">{order.customer.phone ?? order.customer.email}</p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border">
-              <Truck className="w-4 h-4 text-ink-secondary" />
+          <div className="flex gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center flex-shrink-0 border border-surface-border text-brand">
+              <Truck className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">Agent & Config</p>
+              <p className="text-[10px] font-bold text-ink-muted uppercase tracking-widest mb-1">Agent & Config</p>
               <p className="font-bold text-ink mb-0.5">
-                {order.agent?.user.name ?? <span className="text-warning-600 bg-warning-50 px-1.5 py-0.5 rounded border border-warning-100">Unassigned</span>}
+                {order.agent?.user.name ?? <span className="text-warning-600 bg-warning-50 px-2 py-0.5 rounded-md border border-warning-200">Unassigned</span>}
               </p>
-              <p className="text-xs text-ink-muted mt-1">{order.orderType} · {order.rateType.replace("_", " ")}</p>
+              <p className="text-xs text-ink-muted mt-1 bg-white inline-block px-2 py-0.5 rounded border border-surface-border">{order.orderType} · {order.rateType.replace("_", " ")}</p>
             </div>
           </div>
         </div>
@@ -243,34 +265,34 @@ export default function OrderDetailPage() {
         {/* Charge breakdown */}
         <div className="pt-2 relative z-10">
           <div className="flex items-center gap-2 mb-4">
-            <Receipt className="w-5 h-5 text-ink-muted" />
+            <Receipt className="w-5 h-5 text-brand" />
             <h2 className="text-sm font-bold text-ink uppercase tracking-wider">Invoice</h2>
           </div>
-          <div className="bg-surface-muted rounded-2xl p-5 border border-surface-border-muted/50 space-y-2.5 text-sm font-medium">
+          <div className="bg-slate-50/80 rounded-2xl p-5 border border-surface-border space-y-3 text-sm font-medium">
             <div className="flex justify-between text-ink-secondary">
               <span>Actual weight</span>
-              <span className="font-mono text-xs">{order.actualWeightKg.toFixed(2)} kg</span>
+              <span className="font-mono text-xs bg-white px-2 py-0.5 rounded border border-surface-border">{order.actualWeightKg.toFixed(2)} kg</span>
             </div>
             <div className="flex justify-between text-ink-secondary">
               <span>Volumetric weight</span>
-              <span className="font-mono text-xs">{order.volumetricWeightKg.toFixed(2)} kg</span>
+              <span className="font-mono text-xs bg-white px-2 py-0.5 rounded border border-surface-border">{order.volumetricWeightKg.toFixed(2)} kg</span>
             </div>
             <div className="flex justify-between text-ink">
               <span>Chargeable weight</span>
-              <span className="font-bold bg-white px-2 py-0.5 rounded shadow-sm border border-surface-border">{order.chargeableWeightKg.toFixed(2)} kg</span>
+              <span className="font-bold bg-white px-2 py-0.5 rounded border border-brand/20 text-brand shadow-sm">{order.chargeableWeightKg.toFixed(2)} kg</span>
             </div>
-            <div className="divider my-3 opacity-50" />
+            <div className="divider my-4 border-surface-border border-dashed" />
             <div className="flex justify-between text-ink-secondary">
               <span>Base + weight charge</span>
-              <span className="font-mono">₹{order.weightCharge.toFixed(2)}</span>
+              <span className="font-mono font-bold text-ink">₹{order.weightCharge.toFixed(2)}</span>
             </div>
             {order.codSurcharge > 0 && (
-              <div className="flex justify-between text-warning-700 bg-warning-50 px-2 py-1 -mx-2 rounded-lg">
-                <span>COD Surcharge</span>
-                <span className="font-mono">+₹{order.codSurcharge.toFixed(2)}</span>
+              <div className="flex justify-between text-warning-700 bg-warning-50 px-3 py-2 -mx-3 rounded-xl border border-warning-200 shadow-sm mt-2">
+                <span className="font-bold">COD Surcharge</span>
+                <span className="font-mono font-bold">+₹{order.codSurcharge.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between font-black text-ink text-lg border-t border-surface-border-muted pt-4 mt-2">
+            <div className="flex justify-between font-black text-ink text-xl border-t-2 border-surface-border pt-4 mt-4">
               <span>Total Charge</span>
               <span className="text-brand">₹{order.totalCharge.toFixed(2)}</span>
             </div>
@@ -293,9 +315,9 @@ export default function OrderDetailPage() {
       </div>
 
       {/* Tracking Timeline */}
-      <div className="card p-6 bg-surface-card border-surface-border-muted shadow-card">
+      <div className="card p-6 bg-white border-surface-border shadow-sm">
         <div className="flex items-center gap-2 mb-8">
-          <Clock className="w-5 h-5 text-ink-muted" />
+          <Clock className="w-5 h-5 text-brand" />
           <h2 className="text-sm font-bold text-ink uppercase tracking-wider">Activity History</h2>
         </div>
         {order.history.length === 0 ? (

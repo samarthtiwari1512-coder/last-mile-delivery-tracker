@@ -4,74 +4,80 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // ── Primary brand (indigo/purple) ─────────────────────────
+        // ── Primary brand (Electric Violet) ─────────────────────────
         brand: {
-          50:  "#eef2ff",
-          100: "#e0e7ff",
-          200: "#c7d2fe",
-          300: "#a5b4fc",
-          400: "#818cf8",
-          500: "#6366f1",
-          600: "#4f46e5",   // DEFAULT — primary CTA color
-          700: "#4338ca",
-          800: "#3730a3",
-          900: "#312e81",
-          DEFAULT: "#4f46e5",
-          dark:    "#3730a3",
+          50:  "#f3e8ff",
+          100: "#e9d5ff",
+          200: "#d8b4fe",
+          300: "#c084fc",
+          400: "#A855F7", // Violet highlight
+          500: "#8b5cf6",
+          600: "#7C3AED", // DEFAULT — Electric Violet
+          700: "#6d28d9",
+          800: "#5b21b6",
+          900: "#4c1d95",
+          DEFAULT: "#7C3AED",
+          dark:    "#5b21b6",
+        },
+
+        // ── Logistics Dark Theme ───────────────────────────────────
+        midnight: {
+          DEFAULT: "#0B1020", // Hero, Nav, Dark Sections
+          surface: "#121A2B", // Cards, Panels in dark mode
         },
 
         // ── Semantic status colors ─────────────────────────────────
-        // "delivered" / positive
+        // "delivered" / positive (Delivery Green)
         success: {
-          50:  "#ecfdf5",
-          100: "#d1fae5",
-          500: "#10b981",
-          600: "#059669",
-          700: "#047857",
-          DEFAULT: "#059669",
+          50:  "#f0fdf4",
+          100: "#dcfce7",
+          500: "#22c55e", 
+          600: "#16a34a",
+          700: "#15803d",
+          DEFAULT: "#22c55e",
         },
-        // "out for delivery" / attention
+        // "out for delivery" / attention (Delivery Orange)
         warning: {
           50:  "#fffbeb",
           100: "#fef3c7",
           500: "#f59e0b",
           600: "#d97706",
           700: "#b45309",
-          DEFAULT: "#d97706",
+          DEFAULT: "#f59e0b",
         },
-        // "failed" / destructive
+        // "failed" / destructive / urgent (Coral)
         danger: {
-          50:  "#fef2f2",
-          100: "#fee2e2",
-          500: "#ef4444",
-          600: "#dc2626",
-          700: "#b91c1c",
-          DEFAULT: "#dc2626",
+          50:  "#fff1f2",
+          100: "#ffe4e6",
+          500: "#f97316",
+          600: "#ea580c",
+          700: "#c2410c",
+          DEFAULT: "#f97316",
         },
-        // "in transit" / informational
+        // "in transit" / informational (fallback)
         info: {
           50:  "#eff6ff",
           100: "#dbeafe",
           500: "#3b82f6",
           600: "#2563eb",
           700: "#1d4ed8",
-          DEFAULT: "#2563eb",
+          DEFAULT: "#3b82f6",
         },
 
-        // ── Neutral surface tokens (centralize raw slate usage) ────
+        // ── Neutral surface tokens ────
         surface: {
-          DEFAULT: "#f8fafc",   // page background
+          DEFAULT: "#F8F7F4",   // light warm background
           card:    "#ffffff",   // card / elevated surface
           muted:   "#f1f5f9",   // hover backgrounds, subtle fills
-          border:  "#e2e8f0",   // standard borders (was slate-200)
-          "border-muted": "#f1f5f9",  // hairline borders (was slate-100)
+          border:  "#e2e8f0",   // standard borders
+          "border-muted": "#f1f5f9",  // hairline borders
         },
 
         // ── Text scale tokens ─────────────────────────────────────
         ink: {
-          DEFAULT: "#0f172a",   // headings / high emphasis (was slate-900)
-          secondary: "#475569", // body text (was slate-600)
-          muted:     "#94a3b8", // metadata / labels (was slate-400)
+          DEFAULT: "#0f172a",   // headings / high emphasis
+          secondary: "#475569", // body text
+          muted:     "#94a3b8", // metadata / labels
           disabled:  "#cbd5e1", // disabled / placeholder
         },
       },
@@ -116,8 +122,11 @@ module.exports = {
         "fade-up": "fadeUp 0.4s ease both",
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "pulse-status": "pulseStatus 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "pulse-live": "pulseLive 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "slide-right": "slideRight 2s linear infinite",
         "route-dash": "routeDash 20s linear infinite",
+        "route-flow": "routeFlow 1.5s linear infinite",
+        "float": "float 5s ease-in-out infinite",
       },
 
       keyframes: {
@@ -135,6 +144,18 @@ module.exports = {
         },
         routeDash: {
           "to": { strokeDashoffset: "-400" },
+        },
+        routeFlow: {
+          "to": { strokeDashoffset: "-24" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-8px)" },
+        },
+        pulseLive: {
+          "0%": { transform: "scale(0.95)", boxShadow: "0 0 0 0 rgba(34, 197, 94, 0.4)" },
+          "70%": { transform: "scale(1)", boxShadow: "0 0 0 6px rgba(34, 197, 94, 0)" },
+          "100%": { transform: "scale(0.95)", boxShadow: "0 0 0 0 rgba(34, 197, 94, 0)" },
         }
       },
     },

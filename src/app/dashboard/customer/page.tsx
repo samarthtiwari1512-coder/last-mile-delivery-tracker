@@ -110,11 +110,11 @@ export default function CustomerDashboard() {
   return (
     <div className="space-y-10">
       {/* ── Page hero ──────────────────────────────────────────────────── */}
-      <div className="relative rounded-3xl bg-brand-900 text-white overflow-hidden p-8 sm:p-12 shadow-brand">
+      <div className="relative rounded-3xl bg-midnight text-white overflow-hidden p-8 sm:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-white/5">
         {/* Abstract graphics */}
-        <div className="absolute right-0 top-0 w-1/2 h-full opacity-20 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-l from-brand-500/30 to-transparent" />
-          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 text-brand-400" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="1">
+        <div className="absolute right-0 top-0 w-full md:w-1/2 h-full opacity-20 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-l from-midnight to-transparent" />
+          <svg className="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 text-brand-400 animate-pulse-slow" viewBox="0 0 200 200" fill="none" stroke="currentColor" strokeWidth="0.5">
             <path d="M 0 100 Q 50 20, 100 100 T 200 100" />
             <path d="M 0 150 Q 70 80, 130 150 T 200 150" />
             <path d="M 0 50 Q 40 10, 80 50 T 200 50" />
@@ -123,21 +123,24 @@ export default function CustomerDashboard() {
           </svg>
         </div>
         
+        {/* Glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-600/20 rounded-full blur-[80px] pointer-events-none z-0" />
+
         <div className="relative z-10 max-w-lg space-y-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm border border-white/10">
-            <span className="w-2 h-2 rounded-full bg-success-500 animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm border border-white/10 text-brand-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse-live" />
             Customer Dashboard
           </div>
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Good evening, {userName.split(' ')[0]}</h1>
-            <p className="text-brand-100/80 text-sm sm:text-base leading-relaxed">
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight mb-3">Good evening, {userName.split(' ')[0]}</h1>
+            <p className="text-slate-400 text-sm sm:text-lg leading-relaxed">
               Track your shipments, monitor delivery progress, and place new orders from your control center.
             </p>
           </div>
-          <div className="pt-2">
-            <a href="/orders/new" className="inline-flex items-center justify-center gap-2 bg-white text-brand-900 rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm hover:bg-brand-50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
-              <Plus className="w-4 h-4" />
-              New Order
+          <div className="pt-4">
+            <a href="/orders/new" className="inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-600 text-white border border-brand-400/50 rounded-xl px-6 py-3 text-sm font-semibold shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_30px_rgba(79,70,229,0.5)] hover:-translate-y-0.5 transition-all duration-300">
+              <Plus className="w-5 h-5" />
+              Place New Order
             </a>
           </div>
         </div>

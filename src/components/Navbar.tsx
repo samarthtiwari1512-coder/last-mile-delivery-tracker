@@ -4,11 +4,11 @@ import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import { Package2, LogOut, LayoutDashboard } from "lucide-react";
 
-// Role → display label + pill color
-const ROLE_META: Record<string, { label: string; bg: string; text: string }> = {
-  ADMIN:    { label: "Admin",    bg: "bg-violet-100", text: "text-violet-700" },
-  AGENT:    { label: "Agent",    bg: "bg-amber-100",  text: "text-amber-700"  },
-  CUSTOMER: { label: "Customer", bg: "bg-emerald-100", text: "text-emerald-700"},
+// Role → display label + pill color (Dark theme adjusted)
+const ROLE_META: Record<string, { label: string; bg: string; text: string; border: string }> = {
+  ADMIN:    { label: "Admin",    bg: "bg-brand-900/50", text: "text-brand-300", border: "border-brand-700/50" },
+  AGENT:    { label: "Agent",    bg: "bg-warning-900/50",  text: "text-warning-300", border: "border-warning-700/50"  },
+  CUSTOMER: { label: "Customer", bg: "bg-success-900/50", text: "text-success-300", border: "border-success-700/50"},
 };
 
 function getInitials(name: string | null | undefined) {
@@ -29,20 +29,27 @@ export function Navbar() {
     | { name?: string | null; email?: string | null; role?: string }
     | undefined;
   const role = user?.role ?? "";
-  const roleMeta = ROLE_META[role] ?? { label: role, bg: "bg-slate-100", text: "text-slate-600" };
+  const roleMeta = ROLE_META[role] ?? { label: role, bg: "bg-slate-800", text: "text-slate-300", border: "border-slate-700" };
   const dashHref = role ? `/dashboard/${role.toLowerCase()}` : "/";
   const isLoading = status === "loading";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/5 bg-midnight/90 backdrop-blur-md">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* ── Logo ─────────────────────────────────── */}
-        <a href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center shadow-brand-sm group-hover:shadow-brand transition-all duration-300">
-            <Package2 className="w-4 h-4 text-white" strokeWidth={2.5} />
+        <a href="/" className="flex items-center gap-3 group flex-shrink-0">
+          <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 shadow-[0_0_15px_rgba(124,58,237,0.4)] group-hover:shadow-[0_0_25px_rgba(124,58,237,0.6)] transition-all duration-300">
+            {/* Custom SVG combining Package, Route, Arrow */}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-white">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+              <line x1="12" y1="22.08" x2="12" y2="12" />
+              {/* Arrow/Route indicator */}
+              <path d="M12 12 l4 -2" className="animate-pulse-live" stroke="rgba(255,255,255,0.7)" />
+            </svg>
           </div>
-          <span className="font-bold text-ink tracking-tight hidden sm:inline text-lg" style={{ letterSpacing: "-0.03em" }}>
-            Last<span className="text-brand">Mile</span>
+          <span className="font-bold text-white tracking-tight hidden sm:inline text-lg" style={{ letterSpacing: "-0.03em" }}>
+            Last<span className="text-brand-400">Mile</span>
           </span>
         </a>
 
@@ -50,24 +57,24 @@ export function Navbar() {
         <nav className="flex items-center gap-1 sm:gap-2">
           {isLoading ? (
             /* Skeleton while session loads */
-            <div className="h-8 w-32 bg-slate-100 animate-pulse rounded-lg" />
+            <div className="h-8 w-32 bg-slate-800 animate-pulse rounded-lg" />
           ) : session ? (
             /* ── Authenticated ── */
             <div className="flex items-center gap-2 sm:gap-3">
               {/* User identity chip */}
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-100">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-midnight-surface border border-white/5">
                 {/* Initials avatar */}
-                <div className="w-6 h-6 rounded-full bg-brand flex items-center justify-center flex-shrink-0">
+                <div className="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center flex-shrink-0">
                   <span className="text-white text-xs font-semibold leading-none">
                     {getInitials(user?.name)}
                   </span>
                 </div>
                 {/* Name */}
-                <span className="text-sm font-semibold text-ink max-w-[120px] truncate" style={{ letterSpacing: "-0.01em" }}>
+                <span className="text-sm font-medium text-slate-200 max-w-[120px] truncate">
                   {user?.name ?? user?.email}
                 </span>
                 {/* Role pill */}
-                <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${roleMeta.bg} ${roleMeta.text}`}>
+                <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border ${roleMeta.bg} ${roleMeta.text} ${roleMeta.border}`}>
                   {roleMeta.label}
                 </span>
               </div>
@@ -77,22 +84,19 @@ export function Navbar() {
                 <div className="w-7 h-7 rounded-full bg-brand flex items-center justify-center">
                   <span className="text-white text-xs font-semibold">{getInitials(user?.name)}</span>
                 </div>
-                <span className={`text-xs font-medium px-1.5 py-0.5 rounded-full ${roleMeta.bg} ${roleMeta.text}`}>
-                  {roleMeta.label}
-                </span>
               </div>
 
               <a
                 href={dashHref}
-                className="flex items-center gap-1.5 text-sm font-medium text-ink-secondary hover:text-ink px-2 sm:px-3 py-1.5 rounded-lg hover:bg-surface-muted transition-colors"
+                className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-white px-2 sm:px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors"
               >
-                <LayoutDashboard className="w-4 h-4 text-ink-muted" />
+                <LayoutDashboard className="w-4 h-4" />
                 Dashboard
               </a>
 
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="flex items-center gap-1.5 text-sm font-medium text-ink-secondary hover:text-danger px-2 sm:px-3 py-1.5 rounded-lg hover:bg-danger-50 transition-colors"
+                className="flex items-center gap-1.5 text-sm font-medium text-slate-400 hover:text-danger-500 px-2 sm:px-3 py-1.5 rounded-lg hover:bg-danger-500/10 transition-colors"
               >
                 <LogOut className="w-4 h-4" />
                 Log out
@@ -100,14 +104,14 @@ export function Navbar() {
             </div>
           ) : (
             /* ── Unauthenticated ── */
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <a
                 href="/login"
-                className="text-sm font-medium text-ink-secondary hover:text-ink px-3 py-1.5 rounded-lg hover:bg-surface-muted transition-colors"
+                className="text-sm font-medium text-slate-300 hover:text-white px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
               >
                 Login
               </a>
-              <a href="/register" className="btn-primary py-2 px-4 shadow-brand-sm">
+              <a href="/register" className="btn-primary py-2 px-5 bg-brand-600 hover:bg-brand-500 shadow-[0_0_15px_rgba(124,58,237,0.3)] hover:shadow-[0_0_25px_rgba(124,58,237,0.5)] border border-brand-500/50 text-white rounded-xl text-sm font-semibold transition-all">
                 Get started
               </a>
             </div>
