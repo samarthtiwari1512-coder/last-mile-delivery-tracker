@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Providers } from "@/components/Providers";
+import { ToastProvider } from "@/components/Toast";
 
 export const metadata: Metadata = {
   title: "LastMile — Delivery Tracker",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="min-h-screen bg-surface">
         <Providers>
+          <ToastProvider>
           {/* ── Header (Navbar is a Client Component, reads useSession) ── */}
           <Navbar />
 
@@ -29,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="hidden sm:inline">Built for assignment · Next.js 14 + Prisma + PostgreSQL</span>
             </div>
           </footer>
+          </ToastProvider>
         </Providers>
       </body>
     </html>
