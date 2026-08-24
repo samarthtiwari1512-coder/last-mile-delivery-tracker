@@ -43,14 +43,14 @@ export default function RegisterPage() {
                 <line x1="23" y1="11" x2="17" y2="11" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-slate-900">Create account</h1>
-            <p className="text-sm text-slate-500">Sign up to start shipping</p>
+            <h1 className="text-xl font-bold text-ink">Create account</h1>
+            <p className="text-sm text-ink-secondary">Sign up to start shipping</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Full name</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Full name</label>
                 <input
                   className="input"
                   placeholder="John Doe"
@@ -60,7 +60,7 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Email</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Email</label>
                 <input
                   className="input"
                   type="email"
@@ -71,7 +71,7 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Phone (optional)</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Phone (optional)</label>
                 <input
                   className="input"
                   placeholder="+1 555-0123"
@@ -80,7 +80,7 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Password</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Password</label>
                 <input
                   className="input"
                   type="password"
@@ -91,7 +91,7 @@ export default function RegisterPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Account type</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Account type</label>
                 <select
                   className="input"
                   value={form.role}
@@ -104,7 +104,7 @@ export default function RegisterPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-xs text-red-700">
+              <div className="banner-danger text-xs">
                 {error}
               </div>
             )}
@@ -117,9 +117,9 @@ export default function RegisterPage() {
             </p>
           </form>
 
-          <p className="text-center text-xs text-slate-400">
+          <p className="text-center text-xs text-ink-muted">
             Already have an account?{" "}
-            <a href="/login" className="text-brand hover:underline font-medium">
+            <a href="/login" className="text-brand hover:text-brand-700 font-semibold">
               Log in here
             </a>
           </p>

@@ -179,9 +179,7 @@ export default function OrderDetailPage() {
 
       {/* Summary card */}
       <div className="card p-5 space-y-4">
-        <h2 className="font-semibold text-slate-800 text-sm uppercase tracking-wide">
-          Shipment Info
-        </h2>
+        <h2 className="section-label mb-3">Shipment Info</h2>
         <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-sm">
           <div>
             <p className="text-xs text-slate-400">Pickup</p>
@@ -217,41 +215,41 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Charge breakdown */}
-        <div className="border-t pt-4 space-y-1.5 text-sm">
-          <h2 className="font-semibold text-slate-800 text-sm uppercase tracking-wide mb-2">
-            Charge Breakdown
-          </h2>
-          <div className="flex justify-between text-slate-600">
-            <span>Actual weight</span>
-            <span>{order.actualWeightKg} kg</span>
-          </div>
-          <div className="flex justify-between text-slate-600">
-            <span>Volumetric weight</span>
-            <span>{order.volumetricWeightKg.toFixed(3)} kg</span>
-          </div>
-          <div className="flex justify-between text-slate-600">
-            <span>Chargeable weight (higher of above)</span>
-            <span className="font-medium">{order.chargeableWeightKg.toFixed(3)} kg</span>
-          </div>
-          <div className="flex justify-between text-slate-600">
-            <span>Base + weight charge</span>
-            <span>₹{order.weightCharge.toFixed(2)}</span>
-          </div>
-          {order.codSurcharge > 0 && (
-            <div className="flex justify-between text-slate-600">
-              <span>COD surcharge</span>
-              <span>₹{order.codSurcharge.toFixed(2)}</span>
+        <div className="divider pt-5 space-y-1">
+          <h2 className="section-label mb-3">Charge Breakdown</h2>
+          <div className="bg-surface-muted rounded-xl p-4 space-y-2 text-sm">
+            <div className="flex justify-between text-ink-secondary">
+              <span>Actual weight</span>
+              <span>{order.actualWeightKg} kg</span>
             </div>
-          )}
-          <div className="flex justify-between font-bold text-slate-900 text-base border-t pt-2 mt-2">
-            <span>Total</span>
-            <span>₹{order.totalCharge.toFixed(2)}</span>
+            <div className="flex justify-between text-ink-secondary">
+              <span>Volumetric weight</span>
+              <span>{order.volumetricWeightKg.toFixed(3)} kg</span>
+            </div>
+            <div className="flex justify-between text-ink-secondary">
+              <span>Chargeable weight (higher of above)</span>
+              <span className="font-semibold text-ink">{order.chargeableWeightKg.toFixed(3)} kg</span>
+            </div>
+            <div className="flex justify-between text-ink-secondary">
+              <span>Base + weight charge</span>
+              <span>₹{order.weightCharge.toFixed(2)}</span>
+            </div>
+            {order.codSurcharge > 0 && (
+              <div className="flex justify-between text-ink-secondary">
+                <span>COD surcharge</span>
+                <span>₹{order.codSurcharge.toFixed(2)}</span>
+              </div>
+            )}
+            <div className="flex justify-between font-bold text-ink text-base border-t border-surface-border pt-3 mt-1">
+              <span>Total</span>
+              <span>₹{order.totalCharge.toFixed(2)}</span>
+            </div>
           </div>
         </div>
 
         {/* Reschedule info */}
         {order.rescheduledFor && (
-          <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-sm text-amber-700">
+          <div className="banner-warning text-sm">
             Rescheduled for:{" "}
             <strong>{new Date(order.rescheduledFor).toLocaleDateString("en-IN")}</strong>
             {order.failureReason && <> · Reason: {order.failureReason}</>}
@@ -261,9 +259,7 @@ export default function OrderDetailPage() {
 
       {/* Tracking Timeline */}
       <div className="card p-5">
-        <h2 className="font-semibold text-slate-800 mb-6 text-sm uppercase tracking-wide">
-          Tracking Timeline
-        </h2>
+        <h2 className="section-label mb-5">Tracking Timeline</h2>
         {order.history.length === 0 ? (
           <p className="text-sm text-slate-400 italic">No history recorded yet.</p>
         ) : (

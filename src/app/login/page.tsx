@@ -34,14 +34,14 @@ export default function LoginPage() {
                 <line x1="15" y1="12" x2="3" y2="12" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-slate-900">Welcome back</h1>
-            <p className="text-sm text-slate-500">Sign in to your account to continue</p>
+            <h1 className="text-xl font-bold text-ink">Welcome back</h1>
+            <p className="text-sm text-ink-secondary">Sign in to your account to continue</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Email</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Email</label>
                 <input
                   className="input"
                   type="email"
@@ -52,7 +52,7 @@ export default function LoginPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-600 mb-1">Password</label>
+                <label className="block text-xs font-medium text-ink-secondary mb-1">Password</label>
                 <input
                   className="input"
                   type="password"
@@ -65,7 +65,7 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-xs text-red-700">
+              <div className="banner-danger text-xs">
                 {error}
               </div>
             )}
@@ -75,9 +75,9 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-xs text-slate-400">
+          <p className="text-center text-xs text-ink-muted">
             Don&apos;t have an account?{" "}
-            <a href="/register" className="text-brand hover:underline font-medium">
+            <a href="/register" className="text-brand hover:text-brand-700 font-semibold">
               Register here
             </a>
           </p>
