@@ -70,7 +70,7 @@ export default function CustomerDashboard() {
             <a
               key={o.id}
               href={`/orders/${o.id}`}
-              className="bg-white border rounded-lg p-4 flex items-center justify-between hover:border-brand hover:shadow-sm transition-all block"
+              className="card-hover p-4 flex items-center justify-between block"
             >
               <div>
                 <p className="font-medium text-sm">{o.pickupZone.name} → {o.dropZone.name}</p>

@@ -1,5 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/authOptions";
+import { LogoutButton } from "@/components/LogoutButton";
 
 export const metadata: Metadata = {
   title: "LastMile — Delivery Tracker",
@@ -7,7 +10,10 @@ export const metadata: Metadata = {
     "Smart last-mile delivery management: zone-based dynamic pricing, intelligent agent assignment, and real-time shipment tracking.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
+  const role = (session?.user as any)?.role?.toLowerCase();
+
   return (
     <html lang="en">
       <body className="min-h-screen bg-surface">
@@ -31,15 +37,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Nav */}
             <nav className="flex items-center gap-1">
-              <a
-                href="/login"
-                className="text-sm text-slate-600 hover:text-brand px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
-              >
-                Login
-              </a>
-              <a href="/register" className="btn-primary text-sm py-1.5 px-4">
-                Get started
-              </a>
+              {session ? (
+                <>
+                  <LogoutButton />
+                  <a href={`/dashboard/${role}`} className="btn-primary text-sm py-1.5 px-4">
+                    Dashboard
+                  </a>
+                </>
+              ) : (
+                <>
+                  <a
+                    href="/login"
+                    className="text-sm text-slate-600 hover:text-brand px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
+                  >
+                    Login
+                  </a>
+                  <a href="/register" className="btn-primary text-sm py-1.5 px-4">
+                    Get started
+                  </a>
+                </>
+              )}
             </nav>
           </div>
         </header>

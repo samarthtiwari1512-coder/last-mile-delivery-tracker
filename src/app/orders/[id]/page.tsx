@@ -172,7 +172,7 @@ export default function OrderDetailPage() {
       </div>
 
       {/* Summary card */}
-      <div className="bg-white border rounded-xl p-5 space-y-4">
+      <div className="card p-5 space-y-4">
         <h2 className="font-semibold text-slate-800 text-sm uppercase tracking-wide">
           Shipment Info
         </h2>
@@ -254,7 +254,7 @@ export default function OrderDetailPage() {
       </div>
 
       {/* Tracking Timeline */}
-      <div className="bg-white border rounded-xl p-5">
+      <div className="card p-5">
         <h2 className="font-semibold text-slate-800 mb-6 text-sm uppercase tracking-wide">
           Tracking Timeline
         </h2>

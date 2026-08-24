@@ -80,7 +80,7 @@ export default function NewOrderPage() {
 
   if (confirmed) {
     return (
-      <div className="bg-white border rounded-lg p-6 max-w-md">
+      <div className="card p-6 max-w-md">
         <h1 className="text-xl font-semibold mb-2">Order placed 🎉</h1>
         <p className="text-slate-600">You'll get an email as the status updates. Track it from your dashboard.</p>
       </div>
@@ -91,7 +91,7 @@ export default function NewOrderPage() {
     <div className="max-w-xl space-y-6">
       <h1 className="text-2xl font-bold">New Order</h1>
 
-      <div className="bg-white border rounded-lg p-6 space-y-4">
+      <div className="card p-6 space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <input className="input" placeholder="Pickup address" value={form.pickupAddress}
             onChange={(e) => setForm({ ...form, pickupAddress: e.target.value })} />

@@ -104,7 +104,7 @@ export default function AdminDashboard() {
             <a
               key={o.id}
               href={`/orders/${o.id}`}
-              className="bg-white border rounded-lg p-4 flex items-center justify-between flex-wrap gap-3 hover:border-brand hover:shadow-sm transition-all block"
+              className="card-hover p-4 flex items-center justify-between flex-wrap gap-3 block"
             >
               <div>
                 <p className="font-medium text-sm">{o.customer.name} · {o.pickupZone.name} → {o.dropZone.name}</p>
