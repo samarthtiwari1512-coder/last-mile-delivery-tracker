@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
 type Quote = {
   chargeableWeightKg: number;
@@ -27,6 +29,9 @@ const initialForm = {
 
 export default function NewOrderPage() {
   const [form, setForm] = useState(initialForm);
+  const { data: session } = useSession();
+  const role = ((session?.user as any)?.role ?? "CUSTOMER").toLowerCase();
+  const dashHref = `/dashboard/${role}`;
   const [quote, setQuote] = useState<Quote | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -88,7 +93,8 @@ export default function NewOrderPage() {
   }
 
   return (
-    <div className="max-w-xl space-y-6">
+    <div className="max-w-xl space-y-4">
+      <Breadcrumb items={[{ label: "Dashboard", href: dashHref }, { label: "New Order" }]} />
       <h1 className="text-2xl font-bold">New Order</h1>
 
       <div className="card p-6 space-y-4">

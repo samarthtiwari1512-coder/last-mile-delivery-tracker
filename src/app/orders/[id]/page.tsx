@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { StatusBadge } from "@/components/StatusBadge";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { useParams } from "next/navigation";
 
 type HistoryEntry = {
@@ -118,6 +120,9 @@ function TimelineEntry({
 export default function OrderDetailPage() {
   const params = useParams();
   const orderId = params.id as string;
+  const { data: session } = useSession();
+  const role = ((session?.user as any)?.role ?? "CUSTOMER").toLowerCase();
+  const dashHref = `/dashboard/${role}`;
 
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
@@ -159,11 +164,12 @@ export default function OrderDetailPage() {
   return (
     <div className="space-y-6 max-w-2xl">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-slate-500">
-        <a href="/dashboard/customer" className="hover:text-brand">Dashboard</a>
-        <span>›</span>
-        <span className="text-slate-800 font-medium">Order #{order.id.slice(-8).toUpperCase()}</span>
-      </div>
+      <Breadcrumb
+        items={[
+          { label: "Dashboard", href: dashHref },
+          { label: `Order #${order.id.slice(-8).toUpperCase()}` },
+        ]}
+      />
 
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
